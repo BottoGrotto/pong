@@ -1,4 +1,4 @@
 # pong
 Pong in Python/Turtle WiP
 
-Copyrigfht 2022 BottoGrotto
+Copyright 2022 BottoGrotto
