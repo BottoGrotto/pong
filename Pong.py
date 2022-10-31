@@ -14,15 +14,15 @@ def start_game(x, y):
     if x > -166 and x < 166 and y > -20 and y < 85:
         st = 1
         print(st)
-
-#start game text
-start = turtle.Turtle()
-start.penup()
-start.hideturtle()
-start.color("white")
-start.setposition(0, -50)
-start.write("START", False, align= "center", font=('impact', 100, "normal"))
-turtle.onscreenclick(start_game, 1)
+if st == 0:
+    #start game text
+    start = turtle.Turtle()
+    start.penup()
+    start.hideturtle()
+    start.color("white")
+    start.setposition(0, -50)
+    start.write("START", False, align= "center", font=('impact', 100, "normal"))
+    turtle.onscreenclick(start_game, 1)
 print(st)
 while st == 0:
     s.update()
@@ -213,8 +213,22 @@ if st == 1:
                 textb.write(f"{str(player_b_score).zfill(2)}", False, align="left", font=('impact', 50, "normal"))
            #when player reaches 10
             print(f"Score PlayerA {player_a_score}  PlayerB {player_b_score}")
-            if player_a_score >= 10 or player_b_score >= 10:
+            if player_a_score >= 1 or player_b_score >= 1:
                 ball.dx = ball.dy = 0
+                #Restart Game
+                def restart_game(x, y):
+                    global st
+                    if x > -114 and x < 126 and y > -390 and y < -330:
+                        print(1)
+                        st = 0
+                restart = turtle.Turtle()
+                restart.hideturtle()
+                restart.penup()
+                restart.color("white")
+                restart.setposition(5, -400)
+                restart.write("RESTART", align="center", font=("impact", 50, "normal"))
+                turtle.onscreenclick(restart_game, 1)
+
             else:
                 k = random.randint(0, 1)
                 if k == 0:
