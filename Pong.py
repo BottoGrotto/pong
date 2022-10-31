@@ -28,6 +28,7 @@ while st == 0:
     s.update()
     time.sleep(0.5)
 
+
 if st == 1:
     start.undo()
     # Var
