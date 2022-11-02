@@ -30,8 +30,11 @@ global paddle_b_move
 global hit_count
 global newx
 global newy
+global ball_init
+global restart
 newx = 0
 newy = 0
+ball_init = True
 def start_game(x, y):
     global next_st
     if x > -166 and x < 166 and y > -20 and y < 85:
@@ -83,6 +86,14 @@ def changePadA(a):
     paddle_a_move += a
     # return a
 
+# Pause Toggle function
+def pause_toggle():
+    global st
+    global next_st
+    if st == 1:
+        next_st = 3
+    elif st == 3:
+        next_st = 1
 def changePadB(a):
     global paddle_b_move
     paddle_b_move += a
@@ -99,6 +110,7 @@ def ball_move():
     global paddle_b
     global texta
     global textb
+    global restart
 
     if ball.xcor() <= -330 or ball.xcor() >= 330:
         # cbx = abs(ball.xcor())
@@ -141,7 +153,6 @@ def ball_move():
             ball.hideturtle()
             #Restart Game
             next_st = 2 # Restart
-            restart = turtle.Turtle()
             restart.hideturtle()
             restart.penup()
             restart.color("white")
@@ -172,6 +183,8 @@ centerline = turtle.Turtle()
 texta = turtle.Turtle()
 textb = turtle.Turtle()
 ball = turtle.Turtle()
+pause = turtle.Turtle()
+restart = turtle.Turtle()
 texta.hideturtle()
 textb.hideturtle()
 centerline.hideturtle()
@@ -191,6 +204,8 @@ s.onkeypress(padBOne, "i")
 s.onkeyrelease(padBMinus, "i")
 s.onkeypress(padBMinus, "k")
 s.onkeyrelease(padBOne, "k")
+
+s.onkey(pause_toggle, "space")
 
 # Main game  Loop
 while True:
@@ -219,26 +234,14 @@ while True:
             turtle.onscreenclick(start_game, 1)
         elif st == 1:
             start.undo()
+            pause.clear()
+            restart.clear()
             # Var
             numx = 3
 
             # Turtle
             timer_text.hideturtle()
             timer_text.color("white")
-
-            #Paddle A
-            paddle_a.color("white")
-            paddle_a.shape("square")
-            paddle_a.shapesize(stretch_wid=5, stretch_len=1)
-            paddle_a.penup()
-            paddle_a.setposition(-350, 0)
-
-            #Paddle B
-            paddle_b.color("white")
-            paddle_b.shape("square")
-            paddle_b.shapesize(stretch_wid=5, stretch_len=1)
-            paddle_b.penup()
-            paddle_b.setposition(350, 0)
 
             #lines
             topline.color("white")
@@ -270,18 +273,17 @@ while True:
             texta.hideturtle()
             texta.color("white")
             texta.setposition(-120, 310)
-            texta.write("00", False, align= "left", font=('impact', 50, "normal"))
 
             textb.penup()
             textb.hideturtle()
             textb.color("white")
             textb.setposition(70, 310)
-            textb.write("00", False, align= "left", font=('impact', 50, "normal"))
+
             s.update()
             #timer Countdown
             while numx > 0:
                 timer_text.clear()
-                timer_text.setposition(-15, 0)
+                timer_text.setposition(-15, -25)
                 timer_text.write(numx, font=("impact", 50, "normal"))
                 numx = numx - 1
                 time.sleep(1)
@@ -297,26 +299,53 @@ while True:
                 centerline.dot(4)
 
             # Ball
-            ball.color("white")
-            ball.shape("square")
-            ball.penup()
-            ball.speed(0)
-            ball.goto(0, 0)
-            rdx = random.randint(2, 3)
-            rdy = random.randint(2, 3)
-            f = random.randint(0, 1)
-            if f == 0:
-                f = -1
-            ball.dx = rdx * f
-            ball.dy = rdy
-            #Points
-            player_a_score = 0
-            player_b_score = 0
+            if ball_init:
 
-            paddle_a_move = 0
-            paddle_b_move = 0
+                ball_init = False
+                texta.write("00", False, align="left", font=('impact', 50, "normal"))
+                textb.write("00", False, align="left", font=('impact', 50, "normal"))
+                # Paddle A
+                paddle_a.color("white")
+                paddle_a.shape("square")
+                paddle_a.shapesize(stretch_wid=5, stretch_len=1)
+                paddle_a.penup()
+                paddle_a.setposition(-350, 0)
 
-            hit_count = 0
+                # Paddle B
+                paddle_b.color("white")
+                paddle_b.shape("square")
+                paddle_b.shapesize(stretch_wid=5, stretch_len=1)
+                paddle_b.penup()
+                paddle_b.setposition(350, 0)
+
+                ball.color("white")
+                ball.shape("square")
+                ball.penup()
+                ball.speed(0)
+                ball.goto(0, 0)
+                rdx = random.randint(2, 3)
+                rdy = random.randint(2, 3)
+                f = random.randint(0, 1)
+                if f == 0:
+                    f = -1
+                ball.dx = rdx * f
+                ball.dy = rdy
+                #Points
+                player_a_score = 0
+                player_b_score = 0
+
+                paddle_a_move = 0
+                paddle_b_move = 0
+
+                hit_count = 0
+        elif st == 2:
+            ball_init = True
+        elif st == 3:
+            pause.hideturtle()
+            pause.penup()
+            pause.color("white")
+            pause.setposition(0, -25)
+            pause.write("PAUSED", align="center", font=("impact", 50, "normal"))
 
 
 # while True:
