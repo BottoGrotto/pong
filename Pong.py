@@ -111,6 +111,7 @@ def ball_move():
     global texta
     global textb
     global restart
+    global restart_box
 
     if ball.xcor() <= -330 or ball.xcor() >= 330:
         # cbx = abs(ball.xcor())
@@ -145,7 +146,7 @@ def ball_move():
             textb.write(f"{str(player_b_score).zfill(2)}", False, align="left", font=('impact', 50, "normal"))
        #when player reaches 10
         print(f"Score PlayerA {player_a_score}  PlayerB {player_b_score}")
-        if player_a_score >= 1 or player_b_score >= 1:
+        if player_a_score >= 5 or player_b_score >= 5:
             ball.dx = ball.dy = 0
             ball.goto(0, 0)
             newx = 0
@@ -153,6 +154,23 @@ def ball_move():
             ball.hideturtle()
             #Restart Game
             next_st = 2 # Restart
+
+            restart_box.setposition(5, -392)
+            restart_box.color("white")
+            restart_box.hideturtle()
+            restart_box.forward(88)
+            restart_box.left(90)
+            restart_box.forward(48)
+            restart_box.left(90)
+            restart_box.forward(178)
+            restart_box.left(90)
+            restart_box.forward(48)
+            restart_box.left(90)
+            restart_box.forward(90)
+            # restart_box.left(360)
+            # restart_box.forward(50)
+            # restart_box.left(90)
+            # restart_box.forward(100)
             restart.hideturtle()
             restart.penup()
             restart.color("white")
@@ -188,7 +206,8 @@ restart = turtle.Turtle()
 texta.hideturtle()
 textb.hideturtle()
 centerline.hideturtle()
-
+restart_box = turtle.Turtle()
+start_box = turtle.Turtle()
 
 # Keybind
 padAOne = lambda: changePadA(1)
@@ -226,6 +245,20 @@ while True:
         print(f"Transition to {st}")
         if st == 0:
             #start game text
+
+            start_box.setposition(0, -42)
+            start_box.hideturtle()
+            start_box.color("white")
+            start_box.forward(140)
+            start_box.left(90)
+            start_box.forward(108)
+            start_box.left(90)
+            start_box.forward(280)
+            start_box.left(90)
+            start_box.forward(108)
+            start_box.left(90)
+            start_box.forward(148)
+
             start.penup()
             start.hideturtle()
             start.color("white")
@@ -236,6 +269,8 @@ while True:
             start.undo()
             pause.clear()
             restart.clear()
+            restart_box.clear()
+            start_box.clear()
             # Var
             numx = 3
 
@@ -298,12 +333,18 @@ while True:
                 centerline.setposition(0, 300 - i * 10)
                 centerline.dot(4)
 
+
+            texta.clear()
+            textb.clear()
+
+            texta.write("00", False, align="left", font=('impact', 50, "normal"))
+            textb.write("00", False, align="left", font=('impact', 50, "normal"))
+
             # Ball
             if ball_init:
-
                 ball_init = False
-                texta.write("00", False, align="left", font=('impact', 50, "normal"))
-                textb.write("00", False, align="left", font=('impact', 50, "normal"))
+
+
                 # Paddle A
                 paddle_a.color("white")
                 paddle_a.shape("square")
@@ -338,6 +379,7 @@ while True:
                 paddle_b_move = 0
 
                 hit_count = 0
+
         elif st == 2:
             ball_init = True
         elif st == 3:
